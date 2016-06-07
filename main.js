@@ -161,7 +161,7 @@ Circle.prototype.update = function () {
 
     if(count === this.game.entities.length) {
         cycles += 1;
-        console.log("everyone died: " + cycles);
+        //console.log("everyone died: " + cycles);
         deathUpdate(cycles);
         
         for(i = 0; i<this.game.entities.length; i++) {
@@ -204,7 +204,6 @@ var ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./img/white.png");
 
 ASSET_MANAGER.downloadAll(function () {
-    console.log("starting up da sheild");
     var canvas = document.getElementById('gameWorld');
     var ctx = canvas.getContext('2d');
 
@@ -252,7 +251,6 @@ ASSET_MANAGER.downloadAll(function () {
     };
 
     socket.on("load", function (data) {
-        console.log(data.gameState);
         gameEngine.entities = [];
         var ents = data.gameState;
         for(var i = 0; i<ents.length; i++){
