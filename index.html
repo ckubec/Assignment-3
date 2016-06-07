@@ -3,11 +3,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Assignment 2 - Zombiepocolypse Work in Progress</title>
+    <title>Assignment 3 Saving and Loading through Socket</title>
+    <script type="text/javascript" src="http://76.28.150.193:8888/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="./assetmanager.js"></script>
     <script type="text/javascript" src="./gameengine.js"></script>
     <script type="text/javascript" src="./main.js"></script>
+
 </head>
+
 <body>
     <canvas id="gameWorld" width="800" height="800" style="border: 5px solid black; background: darkgreen"></canvas>
 
@@ -21,6 +24,9 @@
     </script>
 
     <a>Best Survival Times: </a>
+
+    <button id="save" title="Save the state">Save</button>
+    <button id="load" title="Load the state">Load</button>
 
 </body>
 </html>

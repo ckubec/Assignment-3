@@ -196,6 +196,9 @@ var maxSpeed = 200;
 var cycles = 0;
 var count = 0;
 
+//Connection
+var socket = io.connect("http://76.28.150.193:8888");
+
 var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./img/white.png");
@@ -216,4 +219,59 @@ ASSET_MANAGER.downloadAll(function () {
     }
     gameEngine.init(ctx);
     gameEngine.start();
+
+    var STUDENT_NAME ="Chris Kubec";
+    var STATE_NAME= "savedState";
+
+    //Saving Circles using Sockets
+    document.getElementById("save").onclick = function (e) {
+        e.preventDefault();
+        var ents = gameEngine.entities;
+        var stateToSave = {studentName: STUDENT_NAME, stateName:STATE_NAME, gameState: []};
+
+        //Getting All Circles
+        for(var i = 0; i< ents.length; i++){
+            var ent = ents[i];
+            if(ent instanceof Circle){
+                stateToSave.gameState.push({type:"circle", x: ent.x, y:ent.y, color: ent.color,
+                    velocityX : ent.velocity.x, velocityY: ent.velocity.y, it: ent.it});
+            }
+        }
+
+        //Getting Death Count
+        stateToSave.gameState.push({type:"deaths", death: cycles});
+
+        //Saving State
+        socket.emit("save", stateToSave);
+    };
+
+    //Loading Circles with Sockets
+    document.getElementById("load").onclick = function (e) {
+        e.preventDefault();
+        socket.emit("load", {studentName: STUDENT_NAME, stateName: STATE_NAME});
+    };
+
+    socket.on("load", function (data) {
+        console.log(data.gameState);
+        gameEngine.entities = [];
+        var ents = data.gameState;
+        for(var i = 0; i<ents.length; i++){
+            var savedTemp = ents[i];
+            if(savedTemp.type==="circle"){
+                var circle = new Circle(gameEngine);
+                circle.x = savedTemp.x;
+                circle.y = savedTemp.y;
+                circle.velocity.x = savedTemp.velocityX;
+                circle.velocity.y = savedTemp.velocityY;
+                circle.color = savedTemp.color;
+                circle.it = savedTemp.it;
+                gameEngine.entities.push(circle);
+            }
+            if(savedTemp.type === "deaths"){
+                cycles = savedTemp.death;
+                deathUpdate(cycles);
+            }
+        }
+    });
+    
 });
