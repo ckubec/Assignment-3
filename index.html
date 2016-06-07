@@ -1,0 +1,26 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Assignment 2 - Zombiepocolypse Work in Progress</title>
+    <script type="text/javascript" src="./assetmanager.js"></script>
+    <script type="text/javascript" src="./gameengine.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+</head>
+<body>
+    <canvas id="gameWorld" width="800" height="800" style="border: 5px solid black; background: darkgreen"></canvas>
+
+    <div>Zombie Survival Interaction Simulation</div>
+
+    <a id="cycle">Death Cycles: 0</a>
+    <script>
+        function deathUpdate(count){
+            document.getElementById("cycle").innerHTML = "Death Cycles: " + count + " ";
+        };
+    </script>
+
+    <a>Best Survival Times: </a>
+
+</body>
+</html>
